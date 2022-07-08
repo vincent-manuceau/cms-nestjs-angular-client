@@ -7,6 +7,9 @@
         <div class="mb-1 text-muted">{{article.creationDate}}</div>
         <p class="card-text mb-auto">{{article.content}}</p>
         <a href="#" class="stretched-link">Continue reading</a>
-      </div>
+        <button class="stretched-link btn btn-danger" (click)="delete(article)">Delete Article</button>
+        <span *ngIf="isWaitingForServerResponse">Please wait ...</span>
+        <div *ngIf="error">{{error | json}}</div>
+    </div>
     </div>
 </div>
