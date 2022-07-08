@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { catchError, EMPTY, Observable, Subscription } from 'rxjs';
 import { ArticleService } from '../article.service';
 
 @Component({
@@ -9,13 +9,15 @@ import { ArticleService } from '../article.service';
   styleUrls: ['./article-new.component.css']
 })
 export class ArticleNewComponent implements OnInit {
-  response$ : Subscription | null = null;
+  response$ : Observable<any> | null = null;
+  error = null;
 
   constructor(private fb: FormBuilder, private articleService:ArticleService ) { }
 
   articleForm: FormGroup = this.fb.group({
     title: ['', Validators.required],
-    content: ['', [Validators.required, Validators.minLength(4) ]]
+    content: ['', [Validators.required, Validators.minLength(4) ]],
+    creationDate: new Date().toISOString()
   })
 
   ngOnInit(): void {
@@ -23,9 +25,17 @@ export class ArticleNewComponent implements OnInit {
 
   async submit(){
     console.log("Article / Submit", this.articleForm.value)
-    this.response$ = await this.articleService.createArticle(this.articleForm.value).subscribe(
-      res => console.log(res)
-    )
+    this.response$ = await this.articleService
+      .createArticle(this.articleForm.value)
+      .pipe(
+        catchError(error => {
+          this.error = error;
+          return EMPTY;
+        })
+      )
+      /*.subscribe(
+        res => console.log(res)
+      )*/
   }
 
   get title(){
