@@ -1,3 +1,8 @@
 <div *ngIf="articles$">
-    <app-article-summary *ngFor="let article of articles$ | async" [article]="article"></app-article-summary>
+    <app-article-summary 
+    *ngFor="let article of articles$ | async" 
+    [article]="article"
+    (deleteSuccess)="reloadArticles($event)"
+    >
+</app-article-summary>
 </div>
