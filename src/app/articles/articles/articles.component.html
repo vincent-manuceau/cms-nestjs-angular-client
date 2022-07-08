@@ -1,5 +1,3 @@
 <div *ngIf="articles$">
-    <ul>
-        <li *ngFor="let article of articles$ | async">{{article.title}} - {{article.author}}</li>
-    </ul>
+    <app-article-summary *ngFor="let article of articles$ | async" [article]="article"></app-article-summary>
 </div>
