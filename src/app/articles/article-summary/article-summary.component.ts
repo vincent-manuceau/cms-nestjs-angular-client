@@ -11,6 +11,7 @@ import { Article } from 'src/app/models/article';
 export class ArticleSummaryComponent implements OnInit {
   isWaitingForServerResponse = false;
   error = null;
+  isInEditMode = false;
 
   @Output() deleteSuccess = new EventEmitter<boolean>() ;
   @Input() article!: Article
@@ -27,6 +28,14 @@ export class ArticleSummaryComponent implements OnInit {
       data => {this.isWaitingForServerResponse = false; this.handleSuccess(data)},
       err => {this.isWaitingForServerResponse = false; this.handleError(err)}
     );
+  }
+
+  toggleReadMode() {
+    this.isInEditMode = !this.isInEditMode;
+  }
+
+  update(article:any){
+    console.log(article)
   }
 
   handleError(err:any){
