@@ -7,8 +7,11 @@
         <div class="mb-1 text-muted">{{article.creationDate}}</div>
         <p class="card-text mb-auto">{{article.content}}</p>
         <!--a href="#" class="stretched-link">Continue reading</a-->
-        <button data-toggle="tooltip" title="UPDATE" class="btn btn-warning" (click)="toggleReadMode()">Update article</button>
-        <button data-toggle="tooltip" title="DELETE" class="btn btn-danger" (click)="delete(article)">Delete Article</button>
+
+        
+        <button *ngIf="authService.isAdmin" data-toggle="tooltip" title="UPDATE" class="btn btn-warning" (click)="toggleReadMode()">Update article</button>
+        <button *ngIf="authService.isAdmin" data-toggle="tooltip" title="DELETE" class="btn btn-danger" (click)="delete(article)">Delete Article</button>
+        
         <span *ngIf="isWaitingForServerResponse">Please wait ...</span>
         <div *ngIf="error">{{error | json}}</div>
       </div>
